@@ -24,6 +24,8 @@ GET /api/holidays
 | country2  | String | ISO country code for the second country (e.g., "FR", "IT") |
 | date      | String | Start date in ISO format (YYYY-MM-DD)                      |
 
+**Note**: The API validates country codes against the list of available countries from the Nager.Date API. If an invalid country code is provided, a 404 Not Found response will be returned.
+
 #### Response
 
 ```json
@@ -38,6 +40,13 @@ GET /api/holidays
 - `name1`: The name of the holiday in the first country
 - `name2`: The name of the holiday in the second country
 
+#### Error Responses
+
+| Status Code | Description                                                |
+|-------------|------------------------------------------------------------|
+| 404         | Returned when an invalid country code is provided          |
+| 500         | Returned when there is an internal server error            |
+
 #### Example Request
 
 ```
@@ -51,6 +60,13 @@ The application can be configured using the following properties in `application
 | Property                | Default | Description                                                |
 |-------------------------|--------|------------------------------------------------------------|
 | holiday.years-lookahead | 5      | Number of years to look ahead for common holidays          |
+
+## Caching
+
+The application implements caching for improved performance:
+
+- Available countries are cached to reduce API calls to the Nager.Date API
+- Holiday information for each country and year combination is cached
 
 ## Setup and Running
 
@@ -81,8 +97,9 @@ The application will start on the default port 8080.
 
 ## External APIs
 
-This application uses the Nager.Date API to fetch holiday information:
-- API URL: `https://date.nager.at/api/v3/PublicHolidays/{year}/{country}`
+This application uses the Nager.Date API to fetch holiday information and available countries:
+- Holiday API URL: `https://date.nager.at/api/v3/PublicHolidays/{year}/{country}`
+- Available Countries API URL: `https://date.nager.at/api/v3/AvailableCountries`
 - Documentation: [Nager.Date API Documentation](https://date.nager.at/Api)
 
 ## Examples
