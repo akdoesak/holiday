@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.IOException;
+
 @RestController
 @RequestMapping("/api/holidays")
 public class HolidayController {
@@ -19,7 +21,7 @@ public class HolidayController {
     @GetMapping
     public HolidayResponse getCommonHoliday(@RequestParam String country1,
                                             @RequestParam String country2,
-                                            @RequestParam String date) {
+                                            @RequestParam String date) throws Exception {
         return holidayService.findNextCommonHoliday(country1, country2, date);
     }
 }
